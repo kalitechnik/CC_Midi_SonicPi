@@ -1,2 +1,4 @@
 # CC_Midi_SonicPi
-basic code for CC controls
+The basic codes for controlling CC midi in SonicPI
+Simple examples, with explanations.
+#Thanx to Sam Aroon for creating SonicPi.#
