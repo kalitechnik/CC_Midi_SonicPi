@@ -1,4 +1,4 @@
-# CC_Midi_SonicPi
-#The basic codes for controlling CC midi in SonicPI.
-#Simple examples, with explanations.
-#Thanx to Sam Aroon for creating SonicPi.#
+Programming the control interface for TB303, Sonic Pi`s synth.
+Touch Osc used as a controller, both with OSC messages, and Midi.
+This is my first project done with coding, started to learn Sonic Pi
+at 23rd of March - 2018. 
