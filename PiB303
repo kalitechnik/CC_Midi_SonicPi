@@ -1,0 +1,239 @@
+#Let the show begins - 01-04-2018 - Warsaw, Poland
+#Hi My "CodeName" is "Kalitechnik" and this is ...
+#my first attempt to program instruments in SonicPI
+#Instruments will be controlled by Touch OSC via Wi-Fi (So Cool!)
+#See you soon on GitHub, help and contribution will be appreciated.
+
+#I wish to build the instrument ("Rythm Pi") for playing live that will consist of two.
+#A "Drum" - Section and the "Bass" - Section
+
+#So here i start with two loops - RythmPi and BassPi
+#First i start to work with a "Bass Pi" instrument.
+#Lets see what i can do:)
+
+set :pan, 0
+set :amp, 1
+
+set :attack, 0
+set :attack_level, 1
+set :decay, 0
+set :decay_level, 0
+set :sustain, 0
+set :sustain_level, 1
+set :release, 1
+set :release_level, 1
+
+set :cutoff, 30
+set :cutoff_slide, 0
+
+set :cutoff_attack, 0
+set :cutoff_decay, 0
+set :cutoff_sustain, 0
+set :cutoff_release, 1
+set :resonance, 0
+
+set :reverb_mix, 0
+set :room, 0.6
+set :damp, 0.5
+
+set :echo_mix, 0
+set :phase, 0.25
+set :echo_decay, 2
+
+set :lpf_mix, 0
+set :lpf_cutoff, 0
+
+set :hpf_mix, 0
+set :hpf_cutoff, 0
+
+
+
+#Main Controllers
+live_loop :amp do
+  use_real_time
+  b = sync "/osc/main_amp"
+  puts "amp", b[0]
+  set :amp, b[0]
+end
+
+live_loop :pan do
+  use_real_time
+  b = sync "/osc/pan"
+  puts "pan", b[0]
+  set :pan, b[0]
+end
+
+#ADSR Amplitude Envelope Control
+live_loop :attack do
+  use_real_time
+  b = sync "/osc/attack"
+  puts "attack", b[0]
+  set :attack, b[0]
+end
+live_loop :attack_level do
+  use_real_time
+  b = sync "/osc/attack_level"
+  puts "attack_level", b[0]
+  set :attack_level, b[0]
+end
+
+live_loop :decay do
+  use_real_time
+  b = sync "/osc/decay"
+  puts "decay", b[0]
+  set :decay, b[0]
+end
+
+live_loop :decay_level do
+  use_real_time
+  b = sync "/osc/decay_level"
+  puts "decay_level", b[0]
+  set :decay_level, b[0]
+end
+
+live_loop :sustain do
+  use_real_time
+  b = sync "/osc/sustain"
+  puts "sustain", b[0]
+  set :sustain, b[0]
+end
+
+live_loop :sustain_level do
+  use_real_time
+  b = sync "/osc/sustain_level"
+  puts "sustain_level", b[0]
+  set :sustain_level, b[0]
+end
+
+
+live_loop :release do
+  use_real_time
+  b = sync "/osc/release"
+  puts "release", b[0]
+  set :release, b[0]
+end
+
+live_loop :release_level do
+  use_real_time
+  b = sync "/osc/release_level"
+  puts "release_level", b[0]
+  set :release_level, b[0]
+end
+
+#CutOff Filter Control
+live_loop :cutoff do
+  use_real_time
+  b = sync "/osc/cutoff"
+  puts "cutoff", b[0]
+  set :cutoff, b[0]
+end
+
+live_loop :cutoff_slide do
+  use_real_time
+  b = sync "/osc/cutoff_slide"
+  puts "cutoff_slide", b[0]
+  set :cutoff_slide, b[0]
+end
+
+live_loop :cutoff_attack do
+  use_real_time
+  b = sync "/osc/cutoff_attack"
+  puts "cutoff_attack", b[0]
+  set :cutoff_attack, b[0]
+end
+
+live_loop :cutoff_decay do
+  use_real_time
+  b = sync "/osc/cutoff_decay"
+  puts "cutoff_decay", b[0]
+  set :cutoff_decay, b[0]
+end
+
+live_loop :cutoff_sustain do
+  use_real_time
+  b = sync "/osc/cutoff_sustain"
+  puts "cutoff_sustain", b[0]
+  set :cutoff_sustain, b[0]
+end
+
+live_loop :cutoff_release do
+  use_real_time
+  b = sync "/osc/cutoff_release"
+  puts "cutoff_release", b[0]
+  set :cutoff_release, b[0]
+end
+
+live_loop :resonance do
+  use_real_time
+  b = sync "/osc/resonance"
+  puts "resonance", b[0]
+  set :resonance, b[0]
+end
+
+#Reverb Control
+live_loop :reverb_mix do
+  use_real_time
+  b = sync "/osc/reverb_mix"
+  puts "reverb_mix", b[0]
+  set :reverb_mix, b[0]
+end
+
+live_loop :room do
+  use_real_time
+  b = sync "/osc/room"
+  puts "room", b[0]
+  set :room, b[0]
+end
+
+live_loop :damp do
+  use_real_time
+  b = sync "/osc/damp"
+  puts "damp", b[0]
+  set :damp, b[0]
+end
+
+#Echo Control
+live_loop :echo_mix do
+  use_real_time
+  b = sync "/osc/echo_mix"
+  puts "echo_mix", b[0]
+  set :echo_mix, b[0]
+end
+
+live_loop :phase do
+  use_real_time
+  b = sync "/osc/phase"
+  puts "phase", b[0]
+  set :phase, b[0]
+end
+
+live_loop :echo_decay do
+  use_real_time
+  b = sync "/osc/echo_decay"
+  puts "echo_decay", b[0]
+  set :echo_decay, b[0]
+end
+
+live_loop :pi303 do
+  sync :drums
+  with_fx :echo do |echo|
+    control echo, mix: get(:echo_mix), phase: get(:phase), decay: get(:echo_decay)
+    with_fx :reverb do |reverb|
+      control reverb, mix: get(:reverb_mix), room: get(:room), damp: get(:damp)
+      use_synth :tb303
+      play chord(:Cs3, :m7), amp: get(:amp), pan: get(:pan), attack: get(:attack), attack_level: get(:attack_level), decay: get(:decay),
+        decay_level: get(:decay_level), sustain: get(:sustain), sustain_level: get(:sustain_level), release: get(:release),
+        release_level: get(:release_level), cutoff: get(:cutoff), cutoff_slide: get(:cutoff_slide), res: get(:resonance),
+        cutoff_attack: get(:cutoff_attack), cutoff_decay: get(:cutoff_decay), cutoff_sustain: get(:cutoff_sustain),
+        cutoff_release: get(:cutoff_release)
+      sleep 0.5
+    end
+  end
+end
+
+live_loop :drums do
+  sample :bd_ada
+  sleep 0.25
+  sample :bd_pure, amp: 0.6
+  sleep 0.25
+end
